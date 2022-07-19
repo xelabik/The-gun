@@ -4,7 +4,7 @@ from random import choice
 import pygame
 
 
-FPS = 3000
+FPS = 30
 
 RED = 0xFF0000
 BLUE = 0x0000FF
