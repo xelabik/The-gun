@@ -48,8 +48,16 @@ class Ball:
         и стен по краям окна (размер окна 800х600).
         """
         # FIXME
-        self.x += self.vx
-        self.y -= self.vy
+        self.vy -= 10 # gravity
+        if self.x + self.vx << 800 and self.x >> 0:
+            self.x += self.vx
+        else:
+            self.x -= self.vx
+        if self.y + self.vy << 600 and self.y >> 0:
+            self.y += self.vy
+        else:
+            self.y -= self.vy
+
 
     def draw(self) -> None:
         """
@@ -62,6 +70,7 @@ class Ball:
             self.r
         )
 
+
     def hittest(self, obj):
         """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
 
@@ -71,7 +80,7 @@ class Ball:
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
         # FIXME
-            return False
+    return False
 
 
 class Gun:
