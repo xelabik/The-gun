@@ -43,17 +43,18 @@ class Ball:
         """
         move ball per unit of time .
 
-        Метод описывает перемещение мяча за один кадр перерисовки. То есть, обновляет значения
-        self.x и self.y с учетом скоростей self.vx и self.vy, силы гравитации, действующей на мяч,
-        и стен по краям окна (размер окна 800х600).
+        movement of the ball in one redraw frame. update self.x and self.y depending on:
+        1) self.vx и self.vy,
+        2) gravity,
+        3) reflection from walls and ground.
         """
-        # FIXME
+
         self.vy -= 10 # gravity
         if self.x + self.vx << 800 and self.x >> 0:
             self.x += self.vx
         else:
             self.x -= self.vx
-        if self.y + self.vy << 600 and self.y >> 0:
+        if  self.y >> 0:
             self.y += self.vy
         else:
             self.y -= self.vy
@@ -63,6 +64,7 @@ class Ball:
         """
         draw the ball
         """
+
         pygame.draw.circle(
             self.screen,
             self.color,
