@@ -1,5 +1,6 @@
 import math
 from random import choice
+from random import randint as rnd
 
 import pygame
 
@@ -15,6 +16,7 @@ CYAN = 0x00FFCC
 BLACK = (0, 0, 0)
 WHITE = 0xFFFFFF
 GREY = 0x7D7D7D
+screen_color = (170, 200, 227)
 GAME_COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 
 WIDTH = 800
@@ -34,9 +36,9 @@ class Ball:
         self.x = x
         self.y = y
         self.r = 10
-        self.vx = 0
-        self.vy = 0
-        self.color = choice(GAME_COLORS)
+        self.vx = 10
+        self.vy = -100
+        self.color = BLACK
         self.live = 30
 
     def move(self) -> None:
@@ -49,16 +51,23 @@ class Ball:
         3) reflection from walls and ground.
         """
 
-        self.vy -= 10 # gravity
-        if self.x + self.vx << 800 and self.x >> 0:
-            self.x += self.vx
-        else:
-            self.x -= self.vx
-        if  self.y >> 0:
-            self.y += self.vy
-        else:
-            self.y -= self.vy
+        self.vy += 1  # gravity
+        print(self.vx, self.vy, self.x, self.y)
+        if self.x + self.vx > 800 or self.x + self.vx < 0:
+            self.vx = -self.vx
+        if self.y + self.vy > 600:
+            self.vy = -self.vy
 
+        self.x += self.vx
+        self.y += self.vy
+        # dampening of inertia during contact with the ground
+        if self.y + self.vy > 600:
+            self.vx = self.vx / 3
+            self.vy = self.vy / 3
+            print("it is work")
+
+        if abs(self.vx) < 1 or abs(self.vy) < 1:
+            pass
 
     def draw(self) -> None:
         """
@@ -73,8 +82,8 @@ class Ball:
         )
 
 
-    def hittest(self, obj):
-        """Функция проверяет сталкивалкивается ли данный обьект с целью, описываемой в обьекте obj.
+    def hittest(self, obj) -> bool:
+        """checks collision ball with target, описываемой в обьекте obj.
 
         Args:
             obj: Обьект, с которым проверяется столкновение.
@@ -82,11 +91,14 @@ class Ball:
             Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
         """
         # FIXME
-    return False
+
+
+
+        return False
 
 
 class Gun:
-    def __init__(self, screen):
+    def __init__(self, screen) :
         self.screen = screen
         self.f2_power = 10
         self.f2_on = 0
@@ -96,19 +108,23 @@ class Gun:
     def fire2_start(self, event):
         self.f2_on = 1
 
-    def fire2_end(self, event):
-        """Выстрел мячом.
-
-        Происходит при отпускании кнопки мыши.
-        Начальные значения компонент скорости мяча vx и vy зависят от положения мыши.
+    def fire2_end(self, event) -> bool :
         """
+        Shut with ball when MOUSE left BUTTON UP
+
+        Start velocity (vx and vy) depend on mouse position
+
+        Args:
+            event: mouse position
+        """
+
         global balls, bullet
         bullet += 1
         new_ball = Ball(self.screen)
         new_ball.r += 5
         self.an = math.atan2((event.pos[1]-new_ball.y), (event.pos[0]-new_ball.x))
         new_ball.vx = self.f2_power * math.cos(self.an)
-        new_ball.vy = - self.f2_power * math.sin(self.an)
+        new_ball.vy = self.f2_power * math.sin(self.an)
         balls.append(new_ball)
         self.f2_on = 0
         self.f2_power = 10
@@ -123,6 +139,7 @@ class Gun:
             self.color = GREY
 
     def draw(self):
+        pass
         # FIXIT don't know how to do it
 
     def power_up(self):
@@ -134,17 +151,17 @@ class Gun:
             self.color = GREY
 
 
-class Target:
+class Target(Ball):
     # self.points = 0
     # self.live = 1
     # FIXME: don't work!!! How to call this functions when object is created?
     # self.new_target()
 
     def new_target(self):
-        """ Инициализация новой цели. """
+        # new target initiation
         x = self.x = rnd(600, 780)
         y = self.y = rnd(300, 550)
-        r = self.r = rnd(2, 50)
+        r = self.r = rnd(10, 50)
         color = self.color = RED
 
     def hit(self, points=1):
@@ -152,8 +169,17 @@ class Target:
         self.points += points
 
     def draw(self):
-        ...
-
+        """
+        self.screen = screen
+        pygame.draw.circle(
+            self.screen,
+            self.color,
+            (self.x, self.y),
+            self.r
+        )
+        # remove print
+        print("I printed new target")
+        """
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -162,11 +188,12 @@ balls = []
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
-target = Target()
+target = Target(screen)
 finished = False
 
 while not finished:
-    screen.fill(WHITE)
+    screen.fill(screen_color)
+
     gun.draw()
     target.draw()
     for b in balls:
