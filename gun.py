@@ -51,7 +51,6 @@ class Ball:
         2) gravity,
         3) reflection from walls and ground.
         """
-
         self.vy += 1  # gravity
         if self.x + self.vx > 800 or self.x + self.vx < 0:
             self.vx = -self.vx
@@ -68,7 +67,6 @@ class Ball:
         """
         draw the ball
         """
-
         pygame.draw.circle(
             self.screen,
             self.color,
@@ -112,7 +110,6 @@ class Gun:
         Args:
             event: mouse position
         """
-
         global balls, bullet
         bullet += 1
         new_ball = Ball(self.screen)
@@ -165,17 +162,26 @@ class Target:
         self.points = 1
 
     def new_target(self) -> None:
-        # new target initiation
+        """
+        new target initiation
+        """
         x = self.x = rnd(600, 780)
         y = self.y = rnd(300, 550)
         r = self.r = rnd(10, 50)
         color = self.color = RED
+        self.live = 1
 
-    def hit(self, points=1):
-        """Попадание шарика в цель."""
+    def hit(self, points=1) -> None:
+        """
+        score calculation.
+        """
         self.points += points
+        print("you`r score", self.point)
 
-    def draw(self):
+    def draw(self) -> None:
+        """
+        draw the ball
+        """
         self.screen = screen
         pygame.draw.circle(
             self.screen,
