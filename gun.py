@@ -31,6 +31,7 @@ class Ball:
         Args:
         x - start horizontal point
         y - start vertical poit
+        screen - game field 800 x 600
         """
         self.screen = screen
         self.x = x
@@ -52,22 +53,16 @@ class Ball:
         """
 
         self.vy += 1  # gravity
-        print(self.vx, self.vy, self.x, self.y)
         if self.x + self.vx > 800 or self.x + self.vx < 0:
             self.vx = -self.vx
         if self.y + self.vy > 600:
             self.vy = -self.vy
+            # dampening of inertia during contact with the ground
+            self.vx = self.vx / 3
+            self.vy = self.vy / 3
 
         self.x += self.vx
         self.y += self.vy
-        # dampening of inertia during contact with the ground
-        if self.y + self.vy > 600:
-            self.vx = self.vx / 3
-            self.vy = self.vy / 3
-            print("it is work")
-
-        if abs(self.vx) < 1 or abs(self.vy) < 1:
-            pass
 
     def draw(self) -> None:
         """
@@ -151,13 +146,25 @@ class Gun:
             self.color = GREY
 
 
-class Target(Ball):
-    # self.points = 0
-    # self.live = 1
-    # FIXME: don't work!!! How to call this functions when object is created?
-    # self.new_target()
+class Target:
+    def __init__(self, screen: pygame.Surface, x: int = 400, y: int = 450) -> None:
+        """
+        target constructor
 
-    def new_target(self):
+        Args:
+        x - start horizontal point
+        y - start vertical poit
+        screen - game field 800 x 600
+        """
+        self.screen = screen
+        self.x = x
+        self.y = y
+        self.r = 10
+        self.color = RED
+        self.live = 1
+        self.points = 1
+
+    def new_target(self) -> None:
         # new target initiation
         x = self.x = rnd(600, 780)
         y = self.y = rnd(300, 550)
@@ -169,7 +176,6 @@ class Target(Ball):
         self.points += points
 
     def draw(self):
-        """
         self.screen = screen
         pygame.draw.circle(
             self.screen,
@@ -177,9 +183,7 @@ class Target(Ball):
             (self.x, self.y),
             self.r
         )
-        # remove print
-        print("I printed new target")
-        """
+
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -197,7 +201,8 @@ while not finished:
     gun.draw()
     target.draw()
     for b in balls:
-        b.draw()
+        if abs(b.vx) > 1:
+            b.draw()
     pygame.display.update()
 
     clock.tick(FPS)
