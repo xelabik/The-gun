@@ -76,24 +76,24 @@ class Ball:
             self.r
         )
 
-
     def hittest(self, obj) -> bool:
-        """checks collision ball with target, описываемой в обьекте obj.
+        """checks collision ball with target.
 
         Args:
-            obj: Обьект, с которым проверяется столкновение.
+            obj: target, which collision checking .
         Returns:
-            Возвращает True в случае столкновения мяча и цели. В противном случае возвращает False.
+            if ball hit the target return true . else return False.
         """
-        # FIXME
-
-
-
-        return False
+        x_check = abs(self.x - target.x) - (self.r + target.r)
+        y_check = abs(self.y - target.y) - (self.r + target.r)
+        if x_check < 0 and y_check < 0:
+            return True
+        else:
+            return False
 
 
 class Gun:
-    def __init__(self, screen) :
+    def __init__(self, screen):
         self.screen = screen
         self.f2_power = 10
         self.f2_on = 0
@@ -103,7 +103,7 @@ class Gun:
     def fire2_start(self, event):
         self.f2_on = 1
 
-    def fire2_end(self, event) -> bool :
+    def fire2_end(self, event):
         """
         Shut with ball when MOUSE left BUTTON UP
 
