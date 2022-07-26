@@ -46,7 +46,7 @@ class Ball:
         """
         move ball per unit of time .
 
-        movement of the ball in one redraw frame. update self.x and self.y depending on:
+        move the ball in one redraw frame. update self.x and self.y depending on:
         1) self.vx и self.vy,
         2) gravity,
         3) reflection from walls and ground.
@@ -82,8 +82,8 @@ class Ball:
         Returns:
             if ball hit the target return true . else return False.
         """
-        x_check = abs(self.x - target.x) - (self.r + target.r)
-        y_check = abs(self.y - target.y) - (self.r + target.r)
+        x_check = abs(self.x - obj.x) - (self.r + obj.r)
+        y_check = abs(self.y - obj.y) - (self.r + obj.r)
         if x_check < 0 and y_check < 0:
             return True
         else:
@@ -171,12 +171,17 @@ class Target:
         color = self.color = RED
         self.live = 1
 
-    def hit(self, points=1) -> None:
+    def hit(self, points) -> int:
         """
         score calculation.
+        Args:
+            points: game score
+
+        Returns:
+            Int: game score
         """
-        self.points += points
-        print("you`r score", self.point)
+        points += self.points
+        return points
 
     def draw(self) -> None:
         """
@@ -194,6 +199,7 @@ class Target:
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
+points = 0
 balls = []
 
 clock = pygame.time.Clock()
@@ -226,7 +232,8 @@ while not finished:
         b.move()
         if b.hittest(target) and target.live:
             target.live = 0
-            target.hit()
+            points = target.hit(points)
+            print("you`r score", points)
             target.new_target()
     gun.power_up()
 
