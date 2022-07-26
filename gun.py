@@ -29,9 +29,9 @@ class Ball:
         ball constructor
 
         Args:
-        x - start horizontal point
-        y - start vertical poit
-        screen - game field 800 x 600
+            x - start horizontal point
+            y - start vertical poit
+            screen - game field 800 x 600
         """
         self.screen = screen
         self.x = x
@@ -91,17 +91,28 @@ class Ball:
 
 
 class Gun:
-    def __init__(self, screen):
+    def __init__(self, screen) -> None:
+        """
+        ball constructor
+
+        Args:
+            screen - game field 800 x 600
+        """
         self.screen = screen
         self.f2_power = 10
         self.f2_on = 0
         self.an = 1
         self.color = GREY
 
-    def fire2_start(self, event):
+    def fire2_start(self, event) -> None:
+        """
+        up the flag when user push mouse button
+        Args:
+            event: MOUSEBUTTONDOWN
+        """
         self.f2_on = 1
 
-    def fire2_end(self, event):
+    def fire2_end(self, event) -> None:
         """
         Shut with ball when MOUSE left BUTTON UP
 
@@ -121,8 +132,12 @@ class Gun:
         self.f2_on = 0
         self.f2_power = 10
 
-    def targetting(self, event):
-        """Прицеливание. Зависит от положения мыши."""
+    def targetting(self, event) -> None:
+        """
+        takes aim. Depend on mouse cursor position.
+        Args:
+            event: MOUSEMOTION (mouse position x,y)
+        """
         if event:
             self.an = math.atan((event.pos[1]-450) / (event.pos[0]-20))
         if self.f2_on:
@@ -134,7 +149,10 @@ class Gun:
         pass
         # FIXIT don't know how to do it
 
-    def power_up(self):
+    def power_up(self) -> None:
+        """
+        increases power of shoot
+        """
         if self.f2_on:
             if self.f2_power < 100:
                 self.f2_power += 1
@@ -233,7 +251,6 @@ while not finished:
         if b.hittest(target) and target.live:
             target.live = 0
             points = target.hit(points)
-            print("you`r score", points)
             target.new_target()
     gun.power_up()
 
