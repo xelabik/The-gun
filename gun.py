@@ -145,9 +145,14 @@ class Gun:
         else:
             self.color = GREY
 
-    def draw(self):
-        pass
-        # FIXIT don't know how to do it
+    def draw(self) -> None:
+        """
+        draw the gun
+        """
+        st: int = [40, 450]
+        fnx = (40 + math.cos(self.an) * (self.f2_power + 30))
+        fny = (450 + math.sin(self.an) * (self.f2_power + 30))
+        pygame.draw.line(screen, self.color, (st[0], st[1]), (fnx, fny), 7)
 
     def power_up(self) -> None:
         """
