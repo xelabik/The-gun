@@ -4,7 +4,6 @@ from random import randint as rnd
 
 import pygame
 
-
 FPS = 30
 
 RED = 0xFF0000
