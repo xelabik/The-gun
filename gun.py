@@ -190,7 +190,7 @@ class Target:
         """
         x = self.x = rnd(600, 780)
         y = self.y = rnd(300, 550)
-        r = self.r = rnd(10, 50)
+        r = self.r = rnd(5, 25)
         color = self.color = RED
         self.live = 1
 
@@ -224,16 +224,24 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
 points = 0
 balls = []
+targets = []
+count_targets = 3
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
-target = Target(screen)
 
+for t in range(count_targets):
+    target = Target(screen)
+    target.new_target()
+    targets.append(target)
+
+finished = False
 while not finished:
     screen.fill(screen_color)
 
     gun.draw()
-    target.draw()
+    for target in targets:
+        target.draw()
     for b in balls:
         if abs(b.vx) > 1:
             b.draw()
@@ -252,10 +260,12 @@ while not finished:
 
     for b in balls:
         b.move()
-        if b.hittest(target) and target.live:
-            target.live = 0
-            points = target.hit(points)
-            target.new_target()
+        for target in targets:
+            if b.hittest(target) and target.live:
+                del targets[target]
+                target.live = 0
+                points = target.hit(points)
+                target.new_target()
     gun.power_up()
 
 pygame.quit()
