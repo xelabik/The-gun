@@ -228,7 +228,6 @@ balls = []
 clock = pygame.time.Clock()
 gun = Gun(screen)
 target = Target(screen)
-finished = False
 
 while not finished:
     screen.fill(screen_color)
