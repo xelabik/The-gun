@@ -3,7 +3,7 @@ from random import choice
 from random import randint as rnd
 
 import pygame
-
+# trs
 
 FPS = 30
 
