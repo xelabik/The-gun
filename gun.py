@@ -188,8 +188,8 @@ class Target:
         """
         new target initiation
         """
-        x = self.x = rnd(600, 780)
-        y = self.y = rnd(300, 550)
+        x = self.x = rnd(300, 780)
+        y = self.y = rnd(50, 550)
         r = self.r = rnd(5, 25)
         color = self.color = RED
         self.live = 1
@@ -225,7 +225,8 @@ bullet = 0
 points = 0
 balls = []
 targets = []
-count_targets = 3
+count_targets = 4
+gameCountFlag = 0
 
 clock = pygame.time.Clock()
 gun = Gun(screen)
@@ -240,14 +241,22 @@ while not finished:
     screen.fill(screen_color)
 
     gun.draw()
+    # score
+    font = pygame.font.Font(None, 36)
+    text = font.render("Score: " + str(points), True, BLACK)
+    screen.blit(text, [30, 30])
+    # targets draw
     for target in targets:
-        target.draw()
+        if target.live:
+            target.draw()
+    # balls(bullets) draw
     for b in balls:
         if abs(b.vx) > 1:
             b.draw()
-    pygame.display.update()
 
+    pygame.display.update()
     clock.tick(FPS)
+    # mouse event manager
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             finished = True
@@ -257,15 +266,22 @@ while not finished:
             gun.fire2_end(event)
         elif event.type == pygame.MOUSEMOTION:
             gun.targetting(event)
-
+    # actions after event
     for b in balls:
         b.move()
         for target in targets:
             if b.hittest(target) and target.live:
-                del targets[target]
                 target.live = 0
+                gameCountFlag += 1
                 points = target.hit(points)
-                target.new_target()
+                #print(points)
+                if gameCountFlag == count_targets:
+                    gameCountFlag = 0
+                    for t in range(count_targets):
+                        target = Target(screen)
+                        target.new_target()
+                        targets.append(target)
+
     gun.power_up()
 
 pygame.quit()
