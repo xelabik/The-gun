@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7e380769-6b10-460e-97a9-abc4412fcb88" name="Changes" comment="add coment">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/The-Gun.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/The-Gun.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gun.py" beforeDir="false" afterPath="$PROJECT_DIR$/gun.py" afterDir="false" />
-    </list>
+    <list default="true" id="7e380769-6b10-460e-97a9-abc4412fcb88" name="Changes" comment="02082022 act ver" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -230,7 +224,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659181903934</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="02082022 act ver">
+      <created>1659463707197</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1659463707197</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -260,6 +261,7 @@
     <MESSAGE value="fix1 class Gun" />
     <MESSAGE value="add ignore file" />
     <MESSAGE value="add coment" />
-    <option name="LAST_COMMIT_MESSAGE" value="add coment" />
+    <MESSAGE value="02082022 act ver" />
+    <option name="LAST_COMMIT_MESSAGE" value="02082022 act ver" />
   </component>
 </project>

@@ -275,7 +275,6 @@ while not finished:
                 target.live = 0
                 gameCountFlag += 1
                 points = target.hit(points)
-                #print(points)
                 if gameCountFlag == count_targets:
                     gameCountFlag = 0
                     for t in range(count_targets):
