@@ -36,7 +36,7 @@ class Ball:
         self.screen = screen
         self.x = x
         self.y = y
-        self.r = 10
+        self.r = 5
         self.vx = 10
         self.vy = -100
         self.color = BLACK
@@ -59,6 +59,8 @@ class Ball:
             # dampening of inertia during contact with the ground
             self.vx = self.vx / 3
             self.vy = self.vy / 3
+            if abs(self.vx) and abs(self.vy) < 2:
+                self.y = 1000
 
         self.x += self.vx
         self.y += self.vy
@@ -241,7 +243,7 @@ class MovingTarget(Target):
     def move(self) -> None:
         if self.x + self.mtarget_vel_x > 800 or self.x + self.mtarget_vel_x < 0:
             self.mtarget_vel_x = -self.mtarget_vel_x
-        if self.y + self.mtarget_vel_y > 600 or self.y + self.mtarget_vel_y < 0:
+        if self.y + self.r + self.mtarget_vel_y > 600 or self.y + self.mtarget_vel_y < 0:
             self.mtarget_vel_y = -self.mtarget_vel_y
 
         self.x += self.mtarget_vel_x
@@ -314,8 +316,13 @@ while not finished:
                 points = target.hit(points)
                 if gameCountFlag == count_targets + count_moving_targets:
                     gameCountFlag = 0
-                    for t in range(count_targets + count_moving_targets):
+                    for t in range(count_targets):
                         target = Target(screen)
+                        target.new_target()
+                        targets.append(target)
+
+                    for t in range(count_moving_targets):
+                        target = MovingTarget(screen)
                         target.new_target()
                         targets.append(target)
 
