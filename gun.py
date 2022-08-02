@@ -25,7 +25,7 @@ HEIGHT = 600
 
 
 class Ball:
-    def __init__(self, screen: pygame.Surface, x: int = 40, y: int = 450) -> None:
+    def __init__(self, screen: pygame.Surface, x: int = 1, y: int = 450) -> None:
         """
         ball constructor
 
@@ -37,7 +37,7 @@ class Ball:
         self.screen = screen
         self.x = x
         self.y = y
-        self.r = 10
+        self.r = 5
         self.vx = 10
         self.vy = -100
         self.color = BLACK
@@ -60,6 +60,11 @@ class Ball:
             # dampening of inertia during contact with the ground
             self.vx = self.vx / 3
             self.vy = self.vy / 3
+            if abs(self.vx) and abs(self.vy) < 2:
+               # print(self.y,"I am down")
+                self.y = 1000
+                self.vx = 0
+                self.vy = 0
 
         self.x += self.vx
         self.y += self.vy
@@ -150,9 +155,9 @@ class Gun:
         """
         draw the gun
         """
-        st: int = [40, 450]
-        fnx = (40 + math.cos(self.an) * (self.f2_power + 30))
-        fny = (450 + math.sin(self.an) * (self.f2_power + 30))
+        st: int = [1, 450]
+        fnx = (st[0] + math.cos(self.an) * (self.f2_power + 30))
+        fny = (st[1] + math.sin(self.an) * (self.f2_power + 30))
         pygame.draw.line(screen, self.color, (st[0], st[1]), (fnx, fny), 7)
 
     def power_up(self) -> None:
@@ -220,13 +225,43 @@ class Target:
         )
 
 
+class MovingTarget(Target):
+    def __init__(self, screen: pygame.Surface, x: int = 400, y: int = 450) -> None:
+        super().__init__(screen, x, y)
+
+        self.color = GREEN
+        self.points = 2
+
+    def new_target(self) -> None:
+        """
+        new moving target initiation
+        """
+        x = self.x = rnd(300, 780)
+        y = self.y = rnd(50, 550)
+        r = self.r = rnd(5, 25)
+        mtarget_vel_x = self.mtarget_vel_x = rnd(-10, 10)
+        mtarget_vel_y = self.mtarget_vel_y = rnd(-10, 10)
+        color = self.color = GREEN
+        self.live = 1
+
+    def move(self) -> None:
+        if self.x + self.mtarget_vel_x > 800 or self.x + self.mtarget_vel_x < 0:
+            self.mtarget_vel_x = -self.mtarget_vel_x
+        if self.y + self.r + self.mtarget_vel_y > 600 or self.y + self.mtarget_vel_y < 0:
+            self.mtarget_vel_y = -self.mtarget_vel_y
+
+        self.x += self.mtarget_vel_x
+        self.y += self.mtarget_vel_y
+
+
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
 points = 0
 balls = []
 targets = []
-count_targets = 4
+count_targets = 2
+count_moving_targets = 3
 gameCountFlag = 0
 
 clock = pygame.time.Clock()
@@ -234,6 +269,11 @@ gun = Gun(screen)
 
 for t in range(count_targets):
     target = Target(screen)
+    target.new_target()
+    targets.append(target)
+
+for t in range(count_moving_targets):
+    target = MovingTarget(screen)
     target.new_target()
     targets.append(target)
 
@@ -247,6 +287,9 @@ while not finished:
     text = font.render("Score: " + str(points), True, BLACK)
     screen.blit(text, [30, 30])
     # targets draw
+    for target in targets:
+        if type(target) == MovingTarget:
+            target.move()
     for target in targets:
         if target.live:
             target.draw()
@@ -275,10 +318,19 @@ while not finished:
                 target.live = 0
                 gameCountFlag += 1
                 points = target.hit(points)
+<<<<<<< HEAD
                 if gameCountFlag == count_targets:
+=======
+                if gameCountFlag == count_targets + count_moving_targets:
+>>>>>>> trs
                     gameCountFlag = 0
                     for t in range(count_targets):
                         target = Target(screen)
+                        target.new_target()
+                        targets.append(target)
+
+                    for t in range(count_moving_targets):
+                        target = MovingTarget(screen)
                         target.new_target()
                         targets.append(target)
 
