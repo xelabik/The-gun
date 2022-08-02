@@ -63,6 +63,7 @@ class Ball:
             if abs(self.vx) and abs(self.vy) < 2:
                # print(self.y,"I am down")
                 self.y = 1000
+                self.x = 1000
                 self.vx = 0
                 self.vy = 0
 
@@ -318,11 +319,8 @@ while not finished:
                 target.live = 0
                 gameCountFlag += 1
                 points = target.hit(points)
-<<<<<<< HEAD
-                if gameCountFlag == count_targets:
-=======
+
                 if gameCountFlag == count_targets + count_moving_targets:
->>>>>>> trs
                     gameCountFlag = 0
                     for t in range(count_targets):
                         target = Target(screen)
