@@ -24,7 +24,7 @@ HEIGHT = 600
 
 
 class Ball:
-    def __init__(self, screen: pygame.Surface, x: int = 40, y: int = 450) -> None:
+    def __init__(self, screen: pygame.Surface, x: int = 1, y: int = 450) -> None:
         """
         ball constructor
 
@@ -60,7 +60,10 @@ class Ball:
             self.vx = self.vx / 3
             self.vy = self.vy / 3
             if abs(self.vx) and abs(self.vy) < 2:
+               # print(self.y,"I am down")
                 self.y = 1000
+                self.vx = 0
+                self.vy = 0
 
         self.x += self.vx
         self.y += self.vy
@@ -151,9 +154,9 @@ class Gun:
         """
         draw the gun
         """
-        st: int = [40, 450]
-        fnx = (40 + math.cos(self.an) * (self.f2_power + 30))
-        fny = (450 + math.sin(self.an) * (self.f2_power + 30))
+        st: int = [1, 450]
+        fnx = (st[0] + math.cos(self.an) * (self.f2_power + 30))
+        fny = (st[1] + math.sin(self.an) * (self.f2_power + 30))
         pygame.draw.line(screen, self.color, (st[0], st[1]), (fnx, fny), 7)
 
     def power_up(self) -> None:
