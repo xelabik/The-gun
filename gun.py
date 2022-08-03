@@ -313,6 +313,7 @@ while not finished:
         elif event.type == pygame.MOUSEBUTTONUP:
             gun.fire2_end(event)
             shoots += 1
+            print(len(balls))
         elif event.type == pygame.MOUSEMOTION:
             gun.targetting(event)
     # actions after event
@@ -323,8 +324,10 @@ while not finished:
                 target.live = 0
                 gameCountFlag += 1
                 points = target.hit(points)
+                # when kill all target on screen
                 if gameCountFlag == count_targets + count_moving_targets:
                     gameCountFlag = 0
+                    balls = []
                     for t in range(count_targets):
                         target = Target(screen)
                         target.new_target()
