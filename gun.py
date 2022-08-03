@@ -257,6 +257,7 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 bullet = 0
 points = 0
+shoots = 0
 balls = []
 targets = []
 count_targets = 2
@@ -284,8 +285,12 @@ while not finished:
     # score
     font = pygame.font.Font(None, 36)
     text = font.render("Score: " + str(points), True, BLACK)
-    screen.blit(text, [30, 30])
-    # targets draw
+    screen.blit(text, [30, 20])
+    # shoots
+    font = pygame.font.Font(None, 36)
+    text = font.render("Shoots: " + str(shoots), True, BLACK)
+    screen.blit(text, [30, 50])
+    # target draw
     for target in targets:
         if type(target) == MovingTarget:
             target.move()
@@ -307,6 +312,7 @@ while not finished:
             gun.fire2_start(event)
         elif event.type == pygame.MOUSEBUTTONUP:
             gun.fire2_end(event)
+            shoots += 1
         elif event.type == pygame.MOUSEMOTION:
             gun.targetting(event)
     # actions after event
