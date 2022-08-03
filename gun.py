@@ -3,7 +3,8 @@ from random import choice
 from random import randint as rnd
 
 import pygame
-# trs
+
+# main
 
 FPS = 30
 
@@ -62,6 +63,7 @@ class Ball:
             if abs(self.vx) and abs(self.vy) < 2:
                # print(self.y,"I am down")
                 self.y = 1000
+                self.x = 1000
                 self.vx = 0
                 self.vy = 0
 
@@ -324,6 +326,7 @@ while not finished:
                 target.live = 0
                 gameCountFlag += 1
                 points = target.hit(points)
+
                 # when kill all target on screen
                 if gameCountFlag == count_targets + count_moving_targets:
                     gameCountFlag = 0
